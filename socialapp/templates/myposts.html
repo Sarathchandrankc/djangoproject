@@ -1,0 +1,114 @@
+{%extends 'base.html'%}
+{%block body_block%}
+{%load static%}
+
+<div class="col-md-10 col-lg-8 col-xl-7">
+  <div>
+    {%if messages%}
+    {%for msg in messages%}
+        {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS%}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong></strong> {{msg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
+    {%endfor%}
+    {%endif%}
+  </div>
+  <div class="row">
+  
+    <!-- Post preview-->
+    
+    <!-- Divider-->
+  <!-- <i><h3> Posts</h3></i>  -->
+    <!-- Post preview-->
+{%for p in posts%}
+<div class="col-md-10 col-lg-8 col-xl-10">
+    <!-- Post preview-->
+    <div class="post-preview">
+        <a href="post.html">
+           <i> <button type="submit" class="fa-regular fa-user btn-sm"></button>  <a href="#!">{{p.user}}</a></i>
+           
+          
+
+           
+           <img src="{{p.image}}" alt="">
+            {%if p.image%}
+            <img src="{{p.image}}" alt="">
+            {%endif%}
+           <!-- <h3 class="post-title"><img src="{{p.image}}" alt=""></h3 -->
+            <!-- {{p.image}} -->
+           
+            <h2 class="post-title">{{p.title}}</h2>
+             <a href="{%url 'like-posts' p.id%}" class="btn btn-sm col-ml-5">{{p.likes.all.count}} <i class="fa-regular fa-thumbs-up"></i></a>
+            
+            
+            
+            
+        </a>
+       
+            <div>
+                <p>
+                      
+                    <button class="btn btn- btn-sm" type="submit" data-bs-toggle="collapse" data-bs-target="#commentlist{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExample">
+                          Comments <i class="fa-regular fa-comments"></i>
+                      </button>
+                      <button class="btn btn- btn-sm" type="submit" >
+                      share <i class="fa-solid fa-share"></i>
+                    </button>
+                    <button class="btn btn- btn-sm" type="submit" >
+                        save <i class="fa-regular fa-bookmark"></i>
+                      </button>
+                      <div class="dropdown">
+                        <a class="btn dropdown-toggle btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Settings <i class="fa-solid fa-gear"></i>
+                        </a>
+                      
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#"><i class="fa-regular fa-pen-to-square"></i> Edit Post</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="fa-regular fa-clock"></i> Archive</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="fa-regular fa-volume-xmark"></i> Turn off commenting</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="fa-regular fa-map-pin"></i> Pin</a></li>
+                          <li><a class="dropdown-item" href="{%url 'post-delete' p.id %}"><i class="fa-solid fa-trash "> </i> Delete Post </a></li>
+                          
+                          
+                        </ul>
+                        <i class="btn btn- btn-sm" >posted on {{p.date}}</i>
+                      </div>
+
+
+                      
+                      
+                      
+                      <!-- <i class="fa-solid fa-trash"></i> -->
+                     
+                    
+                    
+                      <!-- <i class="post-meta">
+                      on {{p.date}}</i> </p> -->
+                
+                  <div class="collapse" id="commentlist{{ forloop.counter }}">
+                    <div class="card card-body">
+                        <ul class="list-group">
+                   {%for comm in p.fetch_comments%}
+                        <li class="list-group-item">
+                            <a href="{%url 'like' comm.id %}" class="btn btn-sm col-ml-5">{{comm.like.all.count}} <i class="fa-regular fa-thumbs-up"></i></a>
+                            
+                            {{comm.comment}}</li>
+                   {%endfor%}
+                        </ul>
+                    </div>
+                  </div>
+                  
+            </div>
+        </p>
+    </div>
+    <!-- Divider-->
+    <hr class="my-4" />
+    <!-- Post preview-->
+</div>
+{%endfor%}
+
+</div>
+
+{%endblock%}

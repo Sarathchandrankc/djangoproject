@@ -1,0 +1,42 @@
+from crmapp import models
+from django.contrib.auth.models import User
+
+class Students(models.Model):
+    DOB=models.DateField(null=True)
+    qualification=models.CharField(max_length=200)
+    image=models.ImageField(upload_to="images",null=True,blank=True)
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class Courses(models.Model):
+    cource_name=models.CharField(max_length=200)
+    fees=models.PositiveIntegerField()
+    duration=models.CharField(max_length=200)
+    is_active=models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.cource_name
+
+
+class Batches(models.Model):
+    cource=models.ForeignKey(Courses)
+    batch_code=models.CharField(max_length=50,unique=True)
+    started_date=models.DateField(null=True)
+    is_active=models.BooleanField()
+    def __str__(self):
+        return self.batch_code
+
+
+class Placements(models.Model):
+    student=models.ForeignKey(Students)
+    company=models.CharField(max_length=50)
+    dep=models.CharField(max_length=50)
+    date=models.models.DateField(null=True)
+
+class Batchstudent(models.Model):
+    student=models.ForeignKey(Students,on_delete=models.CASCADE)
+    batch=models.ForeignKey(Batches,on_delete=models.CASCADE)
+    
+
